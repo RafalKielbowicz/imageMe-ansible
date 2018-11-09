@@ -30,7 +30,7 @@
         value: "{{ GOOGLE_CLOUD_API_KEY }}"
     - name: "create bin directory"
       file: path=/home/ec2-user/bin state=directory
-    - name: "Add image_me.py script to PATH"
+    - name: "Add script to PATH"
       copy:
         dest: /bin/image_me
         content: python2 /home/ec2-user/imageMe/image_me.py
