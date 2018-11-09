@@ -34,16 +34,6 @@
         src: /home/ec2-user/imageMe/image_me.py
         dest: /home/ec2-user/bin/
         mode: a+x
-    # - name: Add image_me.py script to PATH
-    #   copy:
-    #     dest: /home/ec2-user/imageMe/image_me.py
-    #     content: python2 /home/ec2-user/bin/image_me.py
-    # - name: change permission of image_me script
-    #   file: dest=/bin/image_me mode=a+x
-    # - file:
-    #     path: /home/ec2-user/imageMe/image_me.py
-    #     state: touch
-    #     mode: "u=x,g=x,o=x"
     - name: "run image_me"
       shell: image_me "car"
 
