@@ -5,6 +5,8 @@
     SEARCH_ENGINE_ID: '000873326420470546694:ycmt1tmdzxs'
     GOOGLE_CLOUD_API_KEY: 'AIzaSyBPLn4atC6KfIxY_bTIjG8kjhS-hdqWIJg'
   tasks:
+    - command: echo "$PATH"
+      register: default_path
     - name: "install git"
       yum:
         name: git
@@ -28,12 +30,15 @@
         value: "{{ GOOGLE_CLOUD_API_KEY }}"
     - name: "create bin directory"
       file: path=/home/ec2-user/bin state=directory
-    - name: "Copy script file to bin"
+    - name: "Add image_me.py script to PATH"
       copy:
-        remote_src: true
-        src: /home/ec2-user/imageMe/image_me.py
-        dest: /home/ec2-user/bin/
-        mode: a+x
+        dest: /bin/image_me
+        content: python2 /home/ec2-user/imageMe/image_me.py
+    - name: "change permission"
+      file:
+        path: /bin/image_me
+        state: touch
+        mode: "u=x,g=x,o=x"
     - name: "run image_me"
       shell: image_me "car"
 
