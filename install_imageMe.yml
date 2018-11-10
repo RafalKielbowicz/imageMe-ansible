@@ -14,18 +14,10 @@
         repo: https://github.com/jkanclerz/google-search-python.git
         dest: /home/ec2-user/imageMe/
         force: yes
-    - name: "add search engine ID and api key"
-      lineinfile:
-        dest: "/home/ec2-user/.bashrc"
-        state: present
-        regexp: "^{{ item.key }}"
-        line: "{{ item.key }}={{ item.value}}"
-      with_items: "{{ environment }}"
-      environment:
-      - key: SEARCH_ENGINE_ID
-        value : "{{ SEARCH_ENGINE_ID }}"
-      - key: GOOGLE_CLOUD_API_KEY
-        value: "{{ GOOGLE_CLOUD_API_KEY }}"
+    - name: "set SEARCH_ENGINE_ID env variable"
+      shell: "echo 'export SEARCH_ENGINE_ID='{{SEARCH_ENGINE_ID}}'' >> .bashrc"
+    - name: "set GOOGLE_CLOUD_API_KEY env variable"
+      shell: "echo 'export GOOGLE_CLOUD_API_KEY='{{GOOGLE_CLOUD_API_KEY}}'' >> .bashrc"
     - name: "create bin directory"
       file: path=/home/ec2-user/bin state=directory
     - name: "Add script to bin"
