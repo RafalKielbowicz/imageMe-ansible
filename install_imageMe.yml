@@ -2,11 +2,9 @@
 - hosts: imageMe_nodes
   become: yes
   vars:
-    SEARCH_ENGINE_ID: '000873326420470546694:ycmt1tmdzxs'
-    GOOGLE_CLOUD_API_KEY: 'AIzaSyBPLn4atC6KfIxY_bTIjG8kjhS-hdqWIJg'
+    SEARCH_ENGINE_ID: '006879359584856769921:rplfy3clmho'
+    GOOGLE_CLOUD_API_KEY: 'AIzaSyDLLC1pqOxkWA8jUjM-Cfwbl_13Sh_2t98'
   tasks:
-    - command: echo "$PATH"
-      register: default_path
     - name: "install git"
       yum:
         name: git
@@ -18,7 +16,7 @@
         force: yes
     - name: "add search engine ID and api key"
       lineinfile:
-        dest: "/etc/environment"
+        dest: "/home/ec2-user/.bashrc"
         state: present
         regexp: "^{{ item.key }}"
         line: "{{ item.key }}={{ item.value}}"
@@ -30,17 +28,14 @@
         value: "{{ GOOGLE_CLOUD_API_KEY }}"
     - name: "create bin directory"
       file: path=/home/ec2-user/bin state=directory
-    - name: "Add script to PATH"
+    - name: "Add script to bin"
       copy:
-        dest: /bin/image_me
-        content: python2 /home/ec2-user/imageMe/image_me.py
+        src: ./templates/imageMe.sh
+        dest: /home/ec2-user/bin/imageMe.sh
     - name: "change permission"
       file:
-        path: /bin/image_me
+        path: /home/ec2-user/bin/imageMe.sh
         state: touch
-        mode: "u=x,g=x,o=x"
-    - name: "run image_me"
-      shell: image_me "car"
-
+        mode: "u=rwx,g=rwx,o=rwx"
 
 
